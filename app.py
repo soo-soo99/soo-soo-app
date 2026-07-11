@@ -98,14 +98,12 @@ def render_q1_detail(r1):
                 f'{item["score"]} / {item["max"]}점 {item["status"]}</span>',
                 unsafe_allow_html=True
             )
-            st.markdown(
-                feedback_html(item["feedback"]),
-                unsafe_allow_html=True
-            )
-            st.markdown(
-                f'<div class="model-box">📌 모범 답안: {item["model"]}</div>',
-                unsafe_allow_html=True
-            )
+            st.markdown(feedback_html(item["feedback"]), unsafe_allow_html=True)
+            with st.expander("📌 모범 답안 보기"):
+                st.markdown(
+                    f'<div class="model-box">{item["model"]}</div>',
+                    unsafe_allow_html=True
+                )
 
 def render_q2_detail(q2):
     score_color = (
@@ -158,58 +156,95 @@ def main():
 
     st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-    # ── 1번 입력
+    # ── 1번 입력 ───────────────────────────────────────────
     st.markdown('<div class="section-header">📌 서논술형 1번 — 표 완성 (㉠~㉢)</div>',
                 unsafe_allow_html=True)
     rubric_q1 = RUBRIC[set_num]["q1"]
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown(f"**{rubric_q1['gim']['label']}**")
-        ans_gim = st.text_area("㉠ 답안", key="gim", height=100,
-                               placeholder="㉠에 해당하는 내용을 입력하세요.")
+        ans_gim = st.text_area(
+            "㉠ 답안",
+            key="gim",
+            height=100,
+            placeholder="여기에 답안을 입력하세요.",  # ← 힌트 없음
+            value="",                                  # ← 초기값 비움
+        )
     with col2:
         st.markdown(f"**{rubric_q1['gin']['label']}**")
-        ans_gin = st.text_area("㉡ 답안", key="gin", height=100,
-                               placeholder="㉡에 해당하는 내용을 입력하세요.")
+        ans_gin = st.text_area(
+            "㉡ 답안",
+            key="gin",
+            height=100,
+            placeholder="여기에 답안을 입력하세요.",
+            value="",
+        )
     with col3:
         st.markdown(f"**{rubric_q1['gic']['label']}**")
-        ans_gic = st.text_area("㉢ 답안", key="gic", height=100,
-                               placeholder="㉢에 해당하는 내용을 입력하세요.")
+        ans_gic = st.text_area(
+            "㉢ 답안",
+            key="gic",
+            height=100,
+            placeholder="여기에 답안을 입력하세요.",
+            value="",
+        )
 
-    # ── 2번 입력
+    # ── 2번 입력 ───────────────────────────────────────────
     st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
     st.markdown('<div class="section-header">✍️ 서논술형 2번 — 설명문 작성</div>',
                 unsafe_allow_html=True)
     has_flow = RUBRIC[set_num]["q2"]["conditions"].get("logical_flow", False)
     flow_note = " *(논리적 흐름 조건 포함)*" if has_flow else ""
     st.caption(f"각 1문장 | 서로 다른 설명 방법 | 괄호 명칭 표기 | 지문 내용만 활용{flow_note}")
+
     col_a, col_b = st.columns(2)
     with col_a:
         st.markdown("**(1)번 문장**")
-        ans_q2_1 = st.text_area("(1) 답안", key="q2_1", height=150,
-                                placeholder="예) ...이다. (대조)")
+        ans_q2_1 = st.text_area(
+            "(1) 답안",
+            key="q2_1",
+            height=150,
+            placeholder="여기에 답안을 입력하세요.",  # ← 힌트 없음
+            value="",
+        )
     with col_b:
         st.markdown("**(2)번 문장**")
-        ans_q2_2 = st.text_area("(2) 답안", key="q2_2", height=150,
-                                placeholder="예) ...이다. (예시)")
+        ans_q2_2 = st.text_area(
+            "(2) 답안",
+            key="q2_2",
+            height=150,
+            placeholder="여기에 답안을 입력하세요.",
+            value="",
+        )
 
-    # ── 3번 입력
+    # ── 3번 입력 ───────────────────────────────────────────
     st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
     st.markdown('<div class="section-header">🎬 서논술형 3번 — 영상 기획안 (장면 2)</div>',
                 unsafe_allow_html=True)
     ground_note = " *(지문 내용을 근거로 효과 서술)*" if set_num in [2, 3] else ""
     st.caption(f"Ⓐ 시각 요소 + Ⓑ 청각 요소 | 연출 효과 서술 | 장면 1과 대조{ground_note}")
+
     col_c, col_d = st.columns(2)
     with col_c:
         st.markdown("**Ⓐ 시각 요소**")
-        ans_q3_a = st.text_area("Ⓐ 답안", key="q3_a", height=180,
-                                placeholder="시각 요소 설정 + 연출 효과 서술")
+        ans_q3_a = st.text_area(
+            "Ⓐ 답안",
+            key="q3_a",
+            height=180,
+            placeholder="여기에 답안을 입력하세요.",  # ← 힌트 없음
+            value="",
+        )
     with col_d:
         st.markdown("**Ⓑ 청각 요소**")
-        ans_q3_b = st.text_area("Ⓑ 답안", key="q3_b", height=180,
-                                placeholder="청각 요소 설정 + 연출 효과 서술")
+        ans_q3_b = st.text_area(
+            "Ⓑ 답안",
+            key="q3_b",
+            height=180,
+            placeholder="여기에 답안을 입력하세요.",
+            value="",
+        )
 
-    # ── 채점 버튼
+    # ── 채점 버튼 ──────────────────────────────────────────
     st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
     btn = st.button("🔍 채점하기", type="primary", use_container_width=True)
 
@@ -227,7 +262,6 @@ def main():
         st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
         st.markdown("## 📊 채점 결과")
 
-        # ── 총점
         total_col, q1_col, q2_col, q3_col = st.columns(4)
         with total_col:
             st.markdown(
@@ -256,25 +290,21 @@ def main():
 
         st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-        # ── 1번 상세
         st.markdown("### 📌 서논술형 1번 상세")
         render_q1_detail(result["q1"])
 
         st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-        # ── 2번 상세
         st.markdown("### ✍️ 서논술형 2번 상세")
         render_q2_detail(result["q2"])
 
         st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-        # ── 3번 상세
         st.markdown("### 🎬 서논술형 3번 상세")
         render_q3_detail(result["q3"])
 
         st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-        # ── 종합 피드백
         st.markdown("### 💬 종합 피드백")
         pct = result["total"] / result["total_max"] * 100 if result["total_max"] else 0
         if pct == 100:
